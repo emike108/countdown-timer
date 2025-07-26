@@ -1,0 +1,162 @@
+.App {
+  text-align: center;
+  border: none;
+  display: flex;
+  justify-content: center;
+}
+
+.additional-times {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  padding: 0 15vh 0 15vh;
+}
+
+.cities {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  align-items: flex-start;
+  font-size: 20px;
+}
+
+.city-times {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  align-items: flex-end;
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.countdown {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.est-time {
+  text-align: left;
+  padding-left: 18vh;
+  font-size: 14px;
+}
+
+.input-bar {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 25px;
+}
+
+.fa-play {
+  padding-left: 4px;
+}
+
+.main-div {
+  background-color: #c8e1fa !important;
+  border: 1px solid #777;
+  border-radius: 20px;
+  border-style: outset;
+  box-shadow: 1px 1px 5px #555;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 60%;
+  margin: 19vh;
+  padding: 3vh;
+}
+
+.play-pause {
+  align-self: flex-end;
+  transform: translateY(-14vh);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  font-size: 24px;
+  border-style: outset;
+  box-shadow: 1px 1px 5px #555;
+}
+.play-pause:hover {
+  border-style: outset;
+  box-shadow: 0 5px 15px rgba(35, 68, 122, 0.85);
+}
+
+.remaining-time {
+  font-size: 20vh;
+}
+
+.search-bar {
+  width: 100px;
+  height: 40px;
+  font-size: 20px;
+}
+.search-button {
+  margin: 0 0 0 10px;
+  width: 100px;
+  height: 45px;
+  color: white;
+  background-color: #5fa35f;
+  font-weight: bold;
+  font-size: 18px;
+  border: transparent;
+  border-radius: 9px;
+  border-style: outset;
+  box-shadow: 1px 1px 5px #555;
+}
+
+.search-button:hover {
+  border-style: outset;
+  color: rgba(255, 255, 255, 1);
+  box-shadow: 0 5px 15px rgba(35, 68, 122, 0.85);
+}
+
+span {
+  margin: 5px 0 5px 0;
+}
+
+.speed1,
+.speed1\.5,
+.speed2 {
+  padding: 17px;
+  width: 80px;
+  margin: 7px;
+  font-size: 16px;
+  border-radius: 7px;
+}
+
+.speed1:hover,
+.speed1\.5:hover,
+.speed2:hover {
+  background-color: #555;
+  color: white;
+}
+
+.speed-buttons {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.speed-indicator {
+  font-size: 20px;
+}
+.timed-messages {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 50px;
+  font-size: 25px;
+  font-style: italic;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
