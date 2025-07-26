@@ -17,4 +17,6 @@ See images below for a brief demonstration:
 
 ## Development
 
-This app was created using create react app
+This app was duplicated from an existing project.
+
+<!-- Add notes on how to spin up the application -->
