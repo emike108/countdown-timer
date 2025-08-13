@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./App.css";
-import AdditonalTimeInfo from "./Components/AdditionalTimeInfo";
+import AdditionalTimeInfo from "./Components/AdditionalTimeInfo";
 import Button from "./Components/Button";
 import Clock from "./Components/Clock";
 import InputBar from "./Components/InputBar";
@@ -167,7 +167,7 @@ function App() {
             <em>Est.Deployment Time:</em>
           </p>
         </div>
-        <AdditonalTimeInfo deploymentTime={deploymentTime} />
+        <AdditionalTimeInfo deploymentTime={deploymentTime} />
       </div>
     </div>
   );

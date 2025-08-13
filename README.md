@@ -19,4 +19,32 @@ See images below for a brief demonstration:
 
 This app was duplicated from an existing project.
 
-<!-- Add notes on how to spin up the application -->
+## Initial Setup
+
+1. Clone the repository to your local machine using:
+
+   ```
+   git clone <repository_url>
+   ```
+
+2. Navigate to the project directory:
+
+   ```
+   cd <project_directory>
+   ```
+
+3. Install the required dependencies:
+
+   ```
+   npm install
+   ```
+
+4. Start the development server:
+
+   ```
+   npm start
+   ```
+
+5. Open your web browser and navigate to `http://localhost:3000` to view the application.
+
+NOTE: This project was created using Create React App (CRA). As such it abstracts away the complex configurations for tools like Webpack, Babel, ESLint, and Jest, allowing developers to focus on building their applications without worrying about the underlying build tools.
