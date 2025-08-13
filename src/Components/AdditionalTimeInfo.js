@@ -1,4 +1,4 @@
-const AdditonalTimeInfo = ({ deploymentTime }) => {
+const AdditionalTimeInfo = ({ deploymentTime }) => {
   const getTimeZoneInfo = (time, timeZone) => {
     if (time) {
       return new Date(time).toLocaleString("en-US", { timeZone: timeZone });
@@ -22,4 +22,4 @@ const AdditonalTimeInfo = ({ deploymentTime }) => {
   );
 };
 
-export default AdditonalTimeInfo;
+export default AdditionalTimeInfo;
