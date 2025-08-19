@@ -6,3 +6,22 @@ export function formatRemainingTime(totalSeconds) {
     "0"
   )}`;
 }
+
+export function determineRemainingTimeStyle(remainingTime, isCountingDown) {
+  if (!isCountingDown) {
+    return { color: "black" };
+  }
+
+  if (remainingTime <= 10) {
+    return {
+      color: "red",
+      animation: "blinker 1s linear infinite",
+    };
+  }
+
+  if (remainingTime <= 20) {
+    return { color: "red" };
+  }
+
+  return { color: "black" };
+}

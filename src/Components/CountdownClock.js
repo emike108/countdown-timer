@@ -1,17 +1,19 @@
 import { useEffect, useRef, useState } from "react";
-import { formatRemainingTime } from "../Shared/utils";
+import {
+  determineRemainingTimeStyle,
+  formatRemainingTime,
+} from "../Shared/utils";
 
-export default function Clock({
+export default function CountdownClock({
   enteredTimeInMin,
   isCountingDown,
   onFinish,
-  // countDownStyle,
-  // setIsCountingDown, // function: to stop countdown
 }) {
   const [secondsLeft, setSecondsLeft] = useState(0);
 
   const endTimeRef = useRef(null);
   const intervalRef = useRef(null);
+  const timeoutRef = useRef(null);
 
   useEffect(() => {
     if (!!enteredTimeInMin && isCountingDown) {
@@ -31,7 +33,9 @@ export default function Clock({
 
         if (remainingTime <= 0) {
           clearInterval(intervalRef.current);
-          onFinish();
+          timeoutRef.current = setTimeout(() => {
+            onFinish();
+          }, 3000);
         }
       }, 250);
     } else {
@@ -39,14 +43,20 @@ export default function Clock({
       setSecondsLeft(0);
     }
 
-    return () => clearInterval(intervalRef.current);
+    return () => {
+      clearInterval(intervalRef.current);
+      clearTimeout(timeoutRef.current);
+    };
     // onFinish is not needed in the dependency array
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isCountingDown]);
 
   return (
     <div className="countdown">
-      <span className="remaining-time" /* style={countDownStyle} */>
+      <span
+        className="remaining-time"
+        style={determineRemainingTimeStyle(secondsLeft, isCountingDown)}
+      >
         {formatRemainingTime(secondsLeft)}
       </span>
     </div>

@@ -1,20 +1,16 @@
 import { useState } from "react";
 import "./App.css";
-import Clock from "./Components/Clock";
+import CountdownClock from "./Components/CountdownClock";
 import CountdownInputSection from "./Components/CountdownInputSection";
 
 function App() {
   const [enteredTimeInMin, setEnteredTimeInMin] = useState("");
   const [isCountingDown, setIsCountingDown] = useState(false);
 
-  // const [timerMinutes, setTimesMinutes] = useState("00");
-  // const [timerSeconds, setTimesSeconds] = useState("00");
-
   // const [timerPaused, setTimerPaused] = useState(false);
   // const [timerSpeed, setTimerSpeed] = useState(1000);
 
   // const [deploymentTime, setDeploymentTime] = useState(new Date().getTime());
-  // const [countDownStyle, setCountDownStyle] = useState();
 
   // const [displayMessage, setDisplayMessage] = useState(null);
   // const [totalTime, setTotalTime] = useState();
@@ -127,7 +123,7 @@ function App() {
           &nbsp;&nbsp;
           {displayMessage ? displayMessage : null}
         </div> */}
-        <Clock //rename to countdown display
+        <CountdownClock
           enteredTimeInMin={parseFloat(enteredTimeInMin)}
           isCountingDown={isCountingDown}
           onFinish={onFinish}
