@@ -1,16 +1,15 @@
 const CountdownInputSection = ({
-  enteredTime,
-  setEnteredTime,
+  enteredTimeInMin,
+  setEnteredTimeInMin,
   isCountingDown,
   setIsCountingDown,
-  setDisplayMessage,
-  countDownTime,
+  // setDisplayMessage,
 }) => {
   const handleTimeInput = (e) => {
     const onlyNumbersAndPeriod = /^[0-9]*\.?[0-9]*$/;
 
     if (onlyNumbersAndPeriod.test(e.target.value)) {
-      setEnteredTime(e.target.value);
+      setEnteredTimeInMin(e.target.value);
     }
   };
 
@@ -22,7 +21,7 @@ const CountdownInputSection = ({
         className="search-bar"
         id="time-input"
         placeholder="(Minutes)"
-        value={enteredTime}
+        value={enteredTimeInMin}
         onChange={handleTimeInput}
         disabled={isCountingDown}
       />
@@ -31,13 +30,14 @@ const CountdownInputSection = ({
         type="button"
         disabled={isCountingDown}
         onClick={() => {
-          if (enteredTime > 0) {
-            //is this message clearing needed?
-            setDisplayMessage(null);
+          if (parseFloat(enteredTimeInMin) > 0) {
             setIsCountingDown(true);
+            //is this message clearing needed?
+            // setDisplayMessage(null);
+            // setEnteredTimeInMin("");
           } else {
             alert("Please enter a value that is greater than 0!");
-            setEnteredTime("");
+            setEnteredTimeInMin("");
           }
         }}
       >

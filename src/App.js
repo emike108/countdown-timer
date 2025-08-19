@@ -4,24 +4,24 @@ import Clock from "./Components/Clock";
 import CountdownInputSection from "./Components/CountdownInputSection";
 
 function App() {
-  const [enteredTime, setEnteredTime] = useState("");
+  const [enteredTimeInMin, setEnteredTimeInMin] = useState("");
   const [isCountingDown, setIsCountingDown] = useState(false);
 
-  const [timerMinutes, setTimesMinutes] = useState("00");
-  const [timerSeconds, setTimesSeconds] = useState("00");
+  // const [timerMinutes, setTimesMinutes] = useState("00");
+  // const [timerSeconds, setTimesSeconds] = useState("00");
 
-  const [timerPaused, setTimerPaused] = useState(false);
+  // const [timerPaused, setTimerPaused] = useState(false);
   // const [timerSpeed, setTimerSpeed] = useState(1000);
 
   // const [deploymentTime, setDeploymentTime] = useState(new Date().getTime());
   // const [countDownStyle, setCountDownStyle] = useState();
 
-  const [displayMessage, setDisplayMessage] = useState(null);
-  const [totalTime, setTotalTime] = useState();
+  // const [displayMessage, setDisplayMessage] = useState(null);
+  // const [totalTime, setTotalTime] = useState();
 
-  let endTime = new Date().getTime() + enteredTime * 60 * 1000;
-  let startTime = new Date().getTime();
-  let countDownTime = (endTime - startTime) / 1000;
+  // let endTime = new Date().getTime() + enteredTimeInMin * 60 * 1000;
+  // let startTime = new Date().getTime();
+  // let countDownTime = (endTime - startTime) / 1000;
 
   // let isFirstRender = useRef(true);
   // let intervalRef = useRef(null);
@@ -79,19 +79,19 @@ function App() {
   //   }
   // };
 
-  const handlePause = () => {
-    console.log("Pause functionality disabled for now");
-    //   if (intervalRef.current) {
-    //     if (!timerPaused) {
-    //       clearInterval(intervalRef.current);
-    //     } else {
-    //       intervalRef.current = setInterval(() => {
-    //         updateRemainingTime();
-    //       }, timerSpeed);
-    //     }
-    //     setTimerPaused((prev) => !prev);
-    //   }
-  };
+  // const handlePause = () => {
+  // console.log("Pause functionality disabled for now");
+  //   if (intervalRef.current) {
+  //     if (!timerPaused) {
+  //       clearInterval(intervalRef.current);
+  //     } else {
+  //       intervalRef.current = setInterval(() => {
+  //         updateRemainingTime();
+  //       }, timerSpeed);
+  //     }
+  //     setTimerPaused((prev) => !prev);
+  //   }
+  // };
 
   // const handleSpeed = (speed) => {
   //   if (intervalRef.current) {
@@ -111,22 +111,19 @@ function App() {
     <div className="App">
       <div className="main-div">
         <CountdownInputSection
-          enteredTime={enteredTime}
-          setEnteredTime={setEnteredTime}
+          enteredTimeInMin={enteredTimeInMin}
+          setEnteredTimeInMin={setEnteredTimeInMin}
           isCountingDown={isCountingDown}
           setIsCountingDown={setIsCountingDown}
-          setDisplayMessage={setDisplayMessage}
+          // setDisplayMessage={setDisplayMessage}
         />
-        <div className="timed-messages">
+        {/* <div className="timed-messages">
           &nbsp;&nbsp;
           {displayMessage ? displayMessage : null}
-        </div>
+        </div> */}
         <Clock //rename to countdown display
-          timerMinutes={timerMinutes}
-          timerSeconds={timerSeconds}
-          timerPaused={timerPaused}
-          handlePause={handlePause}
-          // countDownStyle={countDownStyle}
+          enteredTimeInMin={parseFloat(enteredTimeInMin)}
+          isCountingDown={isCountingDown}
         />
         {/* <span className="speed-indicator">
           Speed:{" "}
