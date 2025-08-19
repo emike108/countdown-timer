@@ -107,6 +107,12 @@ function App() {
   //   }
   // };
 
+  const onFinish = () => {
+    setEnteredTimeInMin("");
+    setIsCountingDown(false);
+    //remove any display messages, and reset styles?? or will these be already handled elsewhere?
+  };
+
   return (
     <div className="App">
       <div className="main-div">
@@ -124,6 +130,7 @@ function App() {
         <Clock //rename to countdown display
           enteredTimeInMin={parseFloat(enteredTimeInMin)}
           isCountingDown={isCountingDown}
+          onFinish={onFinish}
         />
         {/* <span className="speed-indicator">
           Speed:{" "}

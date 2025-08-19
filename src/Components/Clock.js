@@ -4,9 +4,9 @@ import { formatRemainingTime } from "../Shared/utils";
 export default function Clock({
   enteredTimeInMin,
   isCountingDown,
+  onFinish,
   // countDownStyle,
   // setIsCountingDown, // function: to stop countdown
-  // onFinish, // optional: parent callback when done
 }) {
   const [secondsLeft, setSecondsLeft] = useState(0);
 
@@ -31,6 +31,7 @@ export default function Clock({
 
         if (remainingTime <= 0) {
           clearInterval(intervalRef.current);
+          onFinish();
         }
       }, 250);
     } else {
@@ -39,6 +40,8 @@ export default function Clock({
     }
 
     return () => clearInterval(intervalRef.current);
+    // onFinish is not needed in the dependency array
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isCountingDown]);
 
   return (
