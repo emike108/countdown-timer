@@ -49,3 +49,11 @@ export function getDisplayMessage(totalTimeInSec, secondsLeft) {
 
   return null;
 }
+
+export function calculateRemainingSeconds(endTime, currentTime) {
+  return Math.max(0, convertMsToSec(endTime - currentTime));
+}
+
+export function convertMsToSec(milliseconds) {
+  return Math.floor(milliseconds / 1000);
+}

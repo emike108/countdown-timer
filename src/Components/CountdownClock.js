@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import {
+  calculateRemainingSeconds,
+  convertMsToSec,
   determineRemainingTimeStyle,
   formatRemainingTime,
   getDisplayMessage,
@@ -13,25 +15,32 @@ export default function CountdownClock({
   const [secondsLeft, setSecondsLeft] = useState(null);
   const [isMessageDisplayed, setIsMessageDisplayed] = useState(false);
 
-  const endTimeRef = useRef(null);
-  const totalCountdownTimeRef = useRef(null);
+  const endMsTimeRef = useRef(null);
+  const totalMsCountdownRef = useRef(null);
   const intervalRef = useRef(null);
   const timeoutRef = useRef(null);
 
   useEffect(() => {
     if (!!enteredTimeInMin && isCountingDown) {
-      endTimeRef.current = new Date().getTime() + enteredTimeInMin * 60 * 1000;
-      totalCountdownTimeRef.current = endTimeRef.current - new Date().getTime();
+      endMsTimeRef.current =
+        new Date().getTime() + enteredTimeInMin * 60 * 1000;
+
+      const currentTime = new Date().getTime();
+      totalMsCountdownRef.current = endMsTimeRef.current - currentTime;
+
+      setSecondsLeft(
+        calculateRemainingSeconds(endMsTimeRef.current, currentTime)
+      );
     }
   }, [enteredTimeInMin, isCountingDown]);
 
   useEffect(() => {
-    if (isCountingDown && endTimeRef.current) {
+    if (isCountingDown && endMsTimeRef.current) {
       intervalRef.current = setInterval(() => {
         const currentTime = new Date().getTime();
-        const remainingTimeInSec = Math.max(
-          0,
-          Math.floor((endTimeRef.current - currentTime) / 1000)
+        const remainingTimeInSec = calculateRemainingSeconds(
+          endMsTimeRef.current,
+          currentTime
         );
         setSecondsLeft(remainingTimeInSec);
 
@@ -64,7 +73,10 @@ export default function CountdownClock({
       <div className="timed-messages">
         &nbsp;&nbsp;
         {isMessageDisplayed
-          ? getDisplayMessage(totalCountdownTimeRef.current / 1000, secondsLeft)
+          ? getDisplayMessage(
+              convertMsToSec(totalMsCountdownRef.current),
+              secondsLeft
+            )
           : null}
       </div>
       <div className="countdown">
