@@ -12,7 +12,6 @@ function App() {
 
   // const [deploymentTime, setDeploymentTime] = useState(new Date().getTime());
 
-  // const [displayMessage, setDisplayMessage] = useState(null);
   // const [totalTime, setTotalTime] = useState();
 
   // let endTime = new Date().getTime() + enteredTimeInMin * 60 * 1000;
@@ -103,10 +102,9 @@ function App() {
   //   }
   // };
 
-  const onFinish = () => {
+  function onFinish() {
     setEnteredTimeInMin("");
     setIsCountingDown(false);
-    //remove any display messages, and reset styles?? or will these be already handled elsewhere?
   };
 
   return (
@@ -117,12 +115,7 @@ function App() {
           setEnteredTimeInMin={setEnteredTimeInMin}
           isCountingDown={isCountingDown}
           setIsCountingDown={setIsCountingDown}
-          // setDisplayMessage={setDisplayMessage}
         />
-        {/* <div className="timed-messages">
-          &nbsp;&nbsp;
-          {displayMessage ? displayMessage : null}
-        </div> */}
         <CountdownClock
           enteredTimeInMin={parseFloat(enteredTimeInMin)}
           isCountingDown={isCountingDown}

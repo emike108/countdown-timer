@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import {
   determineRemainingTimeStyle,
   formatRemainingTime,
+  getDisplayMessage,
 } from "../Shared/utils";
 
 export default function CountdownClock({
@@ -9,15 +10,18 @@ export default function CountdownClock({
   isCountingDown,
   onFinish,
 }) {
-  const [secondsLeft, setSecondsLeft] = useState(0);
+  const [secondsLeft, setSecondsLeft] = useState(null);
+  const [isMessageDisplayed, setIsMessageDisplayed] = useState(false);
 
   const endTimeRef = useRef(null);
+  const totalCountdownTimeRef = useRef(null);
   const intervalRef = useRef(null);
   const timeoutRef = useRef(null);
 
   useEffect(() => {
     if (!!enteredTimeInMin && isCountingDown) {
       endTimeRef.current = new Date().getTime() + enteredTimeInMin * 60 * 1000;
+      totalCountdownTimeRef.current = endTimeRef.current - new Date().getTime();
     }
   }, [enteredTimeInMin, isCountingDown]);
 
@@ -25,22 +29,26 @@ export default function CountdownClock({
     if (isCountingDown && endTimeRef.current) {
       intervalRef.current = setInterval(() => {
         const currentTime = new Date().getTime();
-        const remainingTime = Math.max(
+        const remainingTimeInSec = Math.max(
           0,
           Math.floor((endTimeRef.current - currentTime) / 1000)
         );
-        setSecondsLeft(remainingTime);
+        setSecondsLeft(remainingTimeInSec);
 
-        if (remainingTime <= 0) {
+        if (remainingTimeInSec <= 0) {
           clearInterval(intervalRef.current);
           timeoutRef.current = setTimeout(() => {
             onFinish();
+            setIsMessageDisplayed(false);
           }, 3000);
         }
       }, 250);
+
+      setIsMessageDisplayed(true);
     } else {
       clearInterval(intervalRef.current);
-      setSecondsLeft(0);
+      setSecondsLeft(null);
+      setIsMessageDisplayed(false);
     }
 
     return () => {
@@ -52,13 +60,21 @@ export default function CountdownClock({
   }, [isCountingDown]);
 
   return (
-    <div className="countdown">
-      <span
-        className="remaining-time"
-        style={determineRemainingTimeStyle(secondsLeft, isCountingDown)}
-      >
-        {formatRemainingTime(secondsLeft)}
-      </span>
-    </div>
+    <>
+      <div className="timed-messages">
+        &nbsp;&nbsp;
+        {isMessageDisplayed
+          ? getDisplayMessage(totalCountdownTimeRef.current / 1000, secondsLeft)
+          : null}
+      </div>
+      <div className="countdown">
+        <span
+          className="remaining-time"
+          style={determineRemainingTimeStyle(secondsLeft, isCountingDown)}
+        >
+          {formatRemainingTime(secondsLeft)}
+        </span>
+      </div>
+    </>
   );
 }

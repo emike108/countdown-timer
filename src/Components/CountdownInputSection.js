@@ -3,15 +3,14 @@ const CountdownInputSection = ({
   setEnteredTimeInMin,
   isCountingDown,
   setIsCountingDown,
-  // setDisplayMessage,
 }) => {
-  const handleTimeInput = (e) => {
+  function handleTimeInput(e) {
     const onlyNumbersAndPeriod = /^[0-9]*\.?[0-9]*$/;
 
     if (onlyNumbersAndPeriod.test(e.target.value)) {
       setEnteredTimeInMin(e.target.value);
     }
-  };
+  }
 
   return (
     <div className="countdown-input-section">
@@ -32,9 +31,6 @@ const CountdownInputSection = ({
         onClick={() => {
           if (parseFloat(enteredTimeInMin) > 0) {
             setIsCountingDown(true);
-            //is this message clearing needed?
-            // setDisplayMessage(null);
-            // setEnteredTimeInMin("");
           } else {
             alert("Please enter a value that is greater than 0!");
             setEnteredTimeInMin("");
