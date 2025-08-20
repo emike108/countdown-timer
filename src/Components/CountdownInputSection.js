@@ -1,9 +1,9 @@
-const CountdownInputSection = ({
+export default function CountdownInputSection({
   enteredTimeInMin,
   setEnteredTimeInMin,
   isCountingDown,
   setIsCountingDown,
-}) => {
+}) {
   function handleTimeInput(e) {
     const onlyNumbersAndPeriod = /^[0-9]*\.?[0-9]*$/;
 
@@ -41,6 +41,4 @@ const CountdownInputSection = ({
       </button>
     </div>
   );
-};
-
-export default CountdownInputSection;
+}

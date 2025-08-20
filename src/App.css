@@ -120,11 +120,11 @@
 .search-button:hover {
   border-style: outset;
   color: rgba(255, 255, 255, 1);
-  box-shadow: 0 5px 15px rgba(35, 68, 122, 0.85);
+  box-shadow: 7px 7px 5px #555;
 }
 
-.search-button:di span {
-  margin: 5px 0 5px 0;
+span {
+  margin: 5px 0;
 }
 
 .speed1,
