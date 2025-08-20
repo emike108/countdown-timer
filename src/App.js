@@ -1,142 +1,131 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import "./App.css";
-import AdditionalTimeInfo from "./Components/AdditionalTimeInfo";
-import Button from "./Components/Button";
-import Clock from "./Components/Clock";
-import InputBar from "./Components/InputBar";
+import CountdownClock from "./Components/CountdownClock";
+import CountdownInputSection from "./Components/CountdownInputSection";
 
 function App() {
-  const [timerMinutes, setTimesMinutes] = useState("00");
-  const [timerSeconds, setTimesSeconds] = useState("00");
+  const [enteredTimeInMin, setEnteredTimeInMin] = useState("");
+  const [isCountingDown, setIsCountingDown] = useState(false);
 
-  const [selectedTime, setSelectedTime] = useState("");
-  const [startSearch, setStartSearch] = useState(0);
+  // const [timerPaused, setTimerPaused] = useState(false);
+  // const [timerSpeed, setTimerSpeed] = useState(1000);
 
-  const [timerPaused, setTimerPaused] = useState(false);
-  const [timerSpeed, setTimerSpeed] = useState(1000);
+  // const [deploymentTime, setDeploymentTime] = useState(new Date().getTime());
 
-  const [deploymentTime, setDeploymentTime] = useState(new Date().getTime());
-  const [countDownStyle, setCountDownStyle] = useState();
+  // const [totalTime, setTotalTime] = useState();
 
-  const [displayMessage, setDisplayMessage] = useState(null);
-  const [totalTime, setTotalTime] = useState();
+  // let endTime = new Date().getTime() + enteredTimeInMin * 60 * 1000;
+  // let startTime = new Date().getTime();
+  // let countDownTime = (endTime - startTime) / 1000;
 
-  let endTime = new Date().getTime() + selectedTime * 60 * 1000;
-  let startTime = new Date().getTime();
-  let countDownTime = (endTime - startTime) / 1000;
+  // let isFirstRender = useRef(true);
+  // let intervalRef = useRef(null);
+  // let timeRef = useRef(new Date().getTime());
 
-  let isFirstRender = useRef(true);
-  let intervalRef = useRef(null);
-  let timeRef = useRef(new Date().getTime());
+  // useEffect(() => {
+  //   timeRef.current = countDownTime;
+  // }, [startSearch]);
 
-  useEffect(() => {
-    timeRef.current = countDownTime;
-  }, [startSearch]);
+  // useEffect(() => {
+  //   if (!isFirstRender.current) {
+  //     intervalRef.current = setInterval(() => {
+  //       updateRemainingTime();
+  //     }, timerSpeed);
+  //     setSelectedTime("");
+  //     return () => {
+  //       if (intervalRef.current) clearInterval(intervalRef.current);
+  //     };
+  //   } else {
+  //     isFirstRender.current = false;
+  //   }
+  // }, [startSearch]);
 
-  useEffect(() => {
-    if (!isFirstRender.current) {
-      intervalRef.current = setInterval(() => {
-        updateRemainingTime();
-      }, timerSpeed);
-      setSelectedTime("");
-      return () => {
-        if (intervalRef.current) clearInterval(intervalRef.current);
-      };
-    } else {
-      isFirstRender.current = false;
-    }
-  }, [startSearch]);
+  // const updateRemainingTime = () => {
+  //   let minutes = Math.floor(timeRef.current / 60);
+  //   minutes = minutes < 10 ? "0" + minutes : minutes;
+  //   let seconds = timeRef.current % 60;
+  //   seconds = seconds < 10 ? "0" + seconds : seconds;
 
-  const updateRemainingTime = () => {
-    let minutes = Math.floor(timeRef.current / 60);
-    minutes = minutes < 10 ? "0" + minutes : minutes;
-    let seconds = timeRef.current % 60;
-    seconds = seconds < 10 ? "0" + seconds : seconds;
+  //   if (totalTime / timeRef.current >= 2) {
+  //     setDisplayMessage("More than halfway there!");
+  //   }
 
-    if (totalTime / timeRef.current >= 2) {
-      setDisplayMessage("More than halfway there!");
-    }
+  //   if (timeRef.current <= 20) {
+  //     setCountDownStyle({ color: "red" });
+  //     if (timeRef.current <= 10) {
+  //       setCountDownStyle({
+  //         color: "red",
+  //         animation: "blinker 1s linear infinite",
+  //       });
+  //     }
+  //   } else {
+  //     setCountDownStyle({ color: "black" });
+  //   }
 
-    if (timeRef.current <= 20) {
-      setCountDownStyle({ color: "red" });
-      if (timeRef.current <= 10) {
-        setCountDownStyle({
-          color: "red",
-          animation: "blinker 1s linear infinite",
-        });
-      }
-    } else {
-      setCountDownStyle({ color: "black" });
-    }
+  //   if (timeRef.current >= 0) {
+  //     timeRef.current--;
+  //     setTimesMinutes(minutes);
+  //     setTimesSeconds(seconds);
+  //   } else {
+  //     clearInterval(intervalRef.current);
+  //     setCountDownStyle({ color: "red" });
+  //     setDisplayMessage("Times up!!");
+  //     console.log("Time's up!!");
+  //   }
+  // };
 
-    if (timeRef.current >= 0) {
-      timeRef.current--;
-      setTimesMinutes(minutes);
-      setTimesSeconds(seconds);
-    } else {
-      clearInterval(intervalRef.current);
-      setCountDownStyle({ color: "red" });
-      setDisplayMessage("Times up!!");
-      console.log("Time's up!!");
-    }
-  };
+  // const handlePause = () => {
+  // console.log("Pause functionality disabled for now");
+  //   if (intervalRef.current) {
+  //     if (!timerPaused) {
+  //       clearInterval(intervalRef.current);
+  //     } else {
+  //       intervalRef.current = setInterval(() => {
+  //         updateRemainingTime();
+  //       }, timerSpeed);
+  //     }
+  //     setTimerPaused((prev) => !prev);
+  //   }
+  // };
 
-  const handlePause = () => {
-    if (intervalRef.current) {
-      if (!timerPaused) {
-        clearInterval(intervalRef.current);
-      } else {
-        intervalRef.current = setInterval(() => {
-          updateRemainingTime();
-        }, timerSpeed);
-      }
-      setTimerPaused((prev) => !prev);
-    }
-  };
+  // const handleSpeed = (speed) => {
+  //   if (intervalRef.current) {
+  //     if (speed === timerSpeed) {
+  //       console.log("Timer already at indicated speed");
+  //     } else {
+  //       clearInterval(intervalRef.current);
+  //       intervalRef.current = setInterval(() => {
+  //         updateRemainingTime();
+  //       }, speed);
+  //       setTimerSpeed(speed);
+  //     }
+  //   }
+  // };
 
-  const handleSpeed = (speed) => {
-    if (intervalRef.current) {
-      if (speed === timerSpeed) {
-        console.log("Timer already at indicated speed");
-      } else {
-        clearInterval(intervalRef.current);
-        intervalRef.current = setInterval(() => {
-          updateRemainingTime();
-        }, speed);
-        setTimerSpeed(speed);
-      }
-    }
+  function onFinish() {
+    setEnteredTimeInMin("");
+    setIsCountingDown(false);
   };
 
   return (
     <div className="App">
       <div className="main-div">
-        <InputBar
-          setSelectedTime={setSelectedTime}
-          selectedTime={selectedTime}
-          setStartSearch={setStartSearch}
-          startSearch={startSearch}
-          setDeploymentTime={setDeploymentTime}
-          setDisplayMessage={setDisplayMessage}
-          countDownTime={countDownTime}
-          setTotalTime={setTotalTime}
+        <CountdownInputSection
+          enteredTimeInMin={enteredTimeInMin}
+          setEnteredTimeInMin={setEnteredTimeInMin}
+          isCountingDown={isCountingDown}
+          setIsCountingDown={setIsCountingDown}
         />
-        <div className="timed-messages">
-          &nbsp;&nbsp;
-          {displayMessage ? displayMessage : <div></div>}
-        </div>
-        <Clock
-          timerMinutes={timerMinutes}
-          timerSeconds={timerSeconds}
-          timerPaused={timerPaused}
-          handlePause={handlePause}
-          countDownStyle={countDownStyle}
+        <CountdownClock
+          enteredTimeInMin={parseFloat(enteredTimeInMin)}
+          isCountingDown={isCountingDown}
+          onFinish={onFinish}
         />
-        <span className="speed-indicator">
+        {/* <span className="speed-indicator">
           Speed:{" "}
           {timerSpeed === 1000 ? "1x" : timerSpeed === 666 ? "1.5x" : "2x"}
-        </span>
-        <div className="speed-buttons">
+        </span> */}
+        {/* <div className="speed-buttons">
           <Button
             className="speed1"
             type="button"
@@ -161,13 +150,13 @@ function App() {
               handleSpeed(500);
             }}
           />
-        </div>
-        <div className="est-time">
+        </div> */}
+        {/* <div className="est-time">
           <p>
             <em>Est.Deployment Time:</em>
           </p>
         </div>
-        <AdditionalTimeInfo deploymentTime={deploymentTime} />
+        <AdditionalTimeInfo deploymentTime={deploymentTime} /> */}
       </div>
     </div>
   );

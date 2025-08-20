@@ -44,7 +44,7 @@
   font-size: 14px;
 }
 
-.input-bar {
+.countdown-input-section {
   flex-grow: 1;
   display: flex;
   align-items: center;
@@ -94,6 +94,7 @@
   height: 40px;
   font-size: 20px;
 }
+
 .search-button {
   margin: 0 0 0 10px;
   width: 100px;
@@ -108,14 +109,22 @@
   box-shadow: 1px 1px 5px #555;
 }
 
+.search-button:disabled {
+  background-color: #a5a5a5;
+  color: #e1e1e1;
+  box-shadow: none;
+  border-style: inset;
+  cursor: not-allowed;
+}
+
 .search-button:hover {
   border-style: outset;
   color: rgba(255, 255, 255, 1);
-  box-shadow: 0 5px 15px rgba(35, 68, 122, 0.85);
+  box-shadow: 7px 7px 5px #555;
 }
 
 span {
-  margin: 5px 0 5px 0;
+  margin: 5px 0;
 }
 
 .speed1,
