@@ -7,11 +7,8 @@ import {
 } from "../Shared/utils";
 
 export default function CountdownClock({
-  enteredTimeInMin,
-  msLeft,
-  setMsLeft,
-  hasCountdownStarted,
-  isCountdownPaused,
+  countdownState,
+  setCountdownState,
   onCountdownFinish,
   endTimeInMsRef,
 }) {
@@ -24,30 +21,43 @@ export default function CountdownClock({
 
   // Initialize the values for endTimeRef and msLeft state when countdown starts
   useEffect(() => {
-    if (!!enteredTimeInMin && hasCountdownStarted) {
+    if (
+      !!countdownState.enteredTimeInMin &&
+      countdownState.hasCountdownStarted
+    ) {
       endTimeInMsRef.current =
-        new Date().getTime() + enteredTimeInMin * 60 * 1000;
+        new Date().getTime() + countdownState.enteredTimeInMin * 60 * 1000;
 
       const currentTime = new Date().getTime();
       totalCountdownMsTimeRef.current = endTimeInMsRef.current - currentTime;
 
-      setMsLeft(calculateRemainingMs(endTimeInMsRef.current, currentTime));
+      setCountdownState((prevState) => ({
+        ...prevState,
+        msLeft: calculateRemainingMs(endTimeInMsRef.current, currentTime),
+      }));
     }
     // Other dependencies will cause unwanted resets of the countdown
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [enteredTimeInMin, hasCountdownStarted]);
+  }, [countdownState.enteredTimeInMin, countdownState.hasCountdownStarted]);
 
   // Initialize the countdownIntervalRef which will use the value of endTimeRef to
   // update the amount of seconds left
   useEffect(() => {
-    if (hasCountdownStarted && endTimeInMsRef.current && !isCountdownPaused) {
+    if (
+      countdownState.hasCountdownStarted &&
+      endTimeInMsRef.current &&
+      !countdownState.isCountdownPaused
+    ) {
       countdownIntervalRef.current = setInterval(() => {
         const currentTime = new Date().getTime();
         const remainingTimeInMs = calculateRemainingMs(
           endTimeInMsRef.current,
           currentTime
         );
-        setMsLeft(remainingTimeInMs);
+        setCountdownState((prevState) => ({
+          ...prevState,
+          msLeft: remainingTimeInMs,
+        }));
 
         if (remainingTimeInMs <= 0) {
           clearInterval(countdownIntervalRef.current);
@@ -69,22 +79,28 @@ export default function CountdownClock({
     };
     // onCountdownFinish is not needed in the dependency array
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hasCountdownStarted, isCountdownPaused]);
+  }, [countdownState.hasCountdownStarted, countdownState.isCountdownPaused]);
 
   return (
     <>
       <div className="timed-messages">
         &nbsp;&nbsp;
         {isMessageDisplayed
-          ? getDisplayMessage(totalCountdownMsTimeRef.current, msLeft)
+          ? getDisplayMessage(
+              totalCountdownMsTimeRef.current,
+              countdownState.msLeft
+            )
           : null}
       </div>
       <div className="countdown">
         <span
           className="remaining-time"
-          style={determineRemainingTimeStyle(msLeft, hasCountdownStarted)}
+          style={determineRemainingTimeStyle(
+            countdownState.msLeft,
+            countdownState.hasCountdownStarted
+          )}
         >
-          {formatRemainingTime(msLeft)}
+          {formatRemainingTime(countdownState.msLeft)}
         </span>
       </div>
     </>

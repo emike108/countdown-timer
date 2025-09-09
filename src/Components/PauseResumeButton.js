@@ -2,31 +2,33 @@ import PauseIcon from "@mui/icons-material/Pause";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 
 export function PauseResumeButton({
-  hasCountdownStarted,
-  isCountdownPaused,
+  countdownState,
   onCountdownPause,
   onCountdownResume,
-  msLeft,
 }) {
   return (
     <div
       title={
-        !hasCountdownStarted ? null : isCountdownPaused ? "Resume" : "Pause"
+        !countdownState.hasCountdownStarted
+          ? null
+          : countdownState.isCountdownPaused
+          ? "Resume"
+          : "Pause"
       }
     >
       <button
         className="pause-button"
         type="button"
-        disabled={!hasCountdownStarted}
+        disabled={!countdownState.hasCountdownStarted}
         onClick={() => {
-          if (!isCountdownPaused) {
+          if (!countdownState.isCountdownPaused) {
             onCountdownPause();
           } else {
-            onCountdownResume(msLeft);
+            onCountdownResume(countdownState.msLeft);
           }
         }}
       >
-        {isCountdownPaused ? <PlayArrowIcon /> : <PauseIcon />}
+        {countdownState.isCountdownPaused ? <PlayArrowIcon /> : <PauseIcon />}
       </button>
     </div>
   );

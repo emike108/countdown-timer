@@ -1,12 +1,8 @@
 import { PauseResumeButton } from "./PauseResumeButton";
 
 export function CountdownInputSection({
-  enteredTimeInMin,
-  setEnteredTimeInMin,
-  msLeft,
-  hasCountdownStarted,
-  setHasCountdownStarted,
-  isCountdownPaused,
+  countdownState,
+  setCountdownState,
   onCountdownPause,
   onCountdownResume,
 }) {
@@ -14,7 +10,10 @@ export function CountdownInputSection({
     const onlyNumbersAndPeriod = /^[0-9]*\.?[0-9]*$/;
 
     if (onlyNumbersAndPeriod.test(e.target.value)) {
-      setEnteredTimeInMin(e.target.value);
+      setCountdownState((prevState) => ({
+        ...prevState,
+        enteredTimeInMin: e.target.value,
+      }));
     }
   }
 
@@ -25,31 +24,35 @@ export function CountdownInputSection({
         className="search-bar"
         id="time-input"
         placeholder="(Minutes)"
-        value={enteredTimeInMin}
+        value={countdownState.enteredTimeInMin}
         onChange={handleTimeInput}
-        disabled={hasCountdownStarted}
+        disabled={countdownState.hasCountdownStarted}
       />
       <button
         className="start-button"
         type="button"
-        disabled={hasCountdownStarted}
+        disabled={countdownState.hasCountdownStarted}
         onClick={() => {
-          if (parseFloat(enteredTimeInMin) > 0) {
-            setHasCountdownStarted(true);
+          if (parseFloat(countdownState.enteredTimeInMin) > 0) {
+            setCountdownState((prevState) => ({
+              ...prevState,
+              hasCountdownStarted: true,
+            }));
           } else {
             alert("Please enter a value that is greater than 0!");
-            setEnteredTimeInMin("");
+            setCountdownState((prevState) => ({
+              ...prevState,
+              enteredTimeInMin: "",
+            }));
           }
         }}
       >
         START
       </button>
       <PauseResumeButton
-        hasCountdownStarted={hasCountdownStarted}
-        isCountdownPaused={isCountdownPaused}
+        countdownState={countdownState}
         onCountdownPause={onCountdownPause}
         onCountdownResume={onCountdownResume}
-        msLeft={msLeft}
       />
     </div>
   );

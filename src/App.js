@@ -5,146 +5,54 @@ import { CountdownInputSection } from "./Components/CountdownInputSection";
 import { calculateRemainingMs } from "./Shared/utils";
 
 export function App() {
-  const [enteredTimeInMin, setEnteredTimeInMin] = useState("");
-  const [msLeft, setMsLeft] = useState(null);
-
-  const [hasCountdownStarted, setHasCountdownStarted] = useState(false);
-  const [isCountdownPaused, setIsCountdownPaused] = useState(false);
+  const [countdownState, setCountdownState] = useState({
+    enteredTimeInMin: "",
+    msLeft: null,
+    hasCountdownStarted: false,
+    isCountdownPaused: false,
+  });
 
   const endTimeInMsRef = useRef(null);
 
   function onCountdownPause() {
-    setIsCountdownPaused(true);
+    setCountdownState((prevState) => ({
+      ...prevState,
+      isCountdownPaused: true,
+    }));
   }
 
   function onCountdownResume(timeInMs) {
     endTimeInMsRef.current = new Date().getTime() + timeInMs;
     const currentTime = new Date().getTime();
 
-    setMsLeft(calculateRemainingMs(endTimeInMsRef.current, currentTime));
-    setIsCountdownPaused(false);
+    setCountdownState((prevState) => ({
+      ...prevState,
+      msLeft: calculateRemainingMs(endTimeInMsRef.current, currentTime),
+      isCountdownPaused: false,
+    }));
   }
 
-  // const [timerPaused, setTimerPaused] = useState(false);
-  // const [timerSpeed, setTimerSpeed] = useState(1000);
-
-  // const [deploymentTime, setDeploymentTime] = useState(new Date().getTime());
-
-  // const [totalTime, setTotalTime] = useState();
-
-  // let endTime = new Date().getTime() + enteredTimeInMin * 60 * 1000;
-  // let startTime = new Date().getTime();
-  // let countDownTime = (endTime - startTime) / 1000;
-
-  // let isFirstRender = useRef(true);
-  // let countdownIntervalRef = useRef(null);
-  // let timeRef = useRef(new Date().getTime());
-
-  // useEffect(() => {
-  //   timeRef.current = countDownTime;
-  // }, [startSearch]);
-
-  // useEffect(() => {
-  //   if (!isFirstRender.current) {
-  //     countdownIntervalRef.current = setInterval(() => {
-  //       updateRemainingTime();
-  //     }, timerSpeed);
-  //     setSelectedTime("");
-  //     return () => {
-  //       if (countdownIntervalRef.current) clearInterval(countdownIntervalRef.current);
-  //     };
-  //   } else {
-  //     isFirstRender.current = false;
-  //   }
-  // }, [startSearch]);
-
-  // const updateRemainingTime = () => {
-  //   let minutes = Math.floor(timeRef.current / 60);
-  //   minutes = minutes < 10 ? "0" + minutes : minutes;
-  //   let seconds = timeRef.current % 60;
-  //   seconds = seconds < 10 ? "0" + seconds : seconds;
-
-  //   if (totalTime / timeRef.current >= 2) {
-  //     setDisplayMessage("More than halfway there!");
-  //   }
-
-  //   if (timeRef.current <= 20) {
-  //     setCountDownStyle({ color: "red" });
-  //     if (timeRef.current <= 10) {
-  //       setCountDownStyle({
-  //         color: "red",
-  //         animation: "blinker 1s linear infinite",
-  //       });
-  //     }
-  //   } else {
-  //     setCountDownStyle({ color: "black" });
-  //   }
-
-  //   if (timeRef.current >= 0) {
-  //     timeRef.current--;
-  //     setTimesMinutes(minutes);
-  //     setTimesSeconds(seconds);
-  //   } else {
-  //     clearInterval(countdownIntervalRef.current);
-  //     setCountDownStyle({ color: "red" });
-  //     setDisplayMessage("Times up!!");
-  //     console.log("Time's up!!");
-  //   }
-  // };
-
-  // const handlePause = () => {
-  // console.log("Pause functionality disabled for now");
-  //   if (countdownIntervalRef.current) {
-  //     if (!timerPaused) {
-  //       clearInterval(countdownIntervalRef.current);
-  //     } else {
-  //       countdownIntervalRef.current = setInterval(() => {
-  //         updateRemainingTime();
-  //       }, timerSpeed);
-  //     }
-  //     setTimerPaused((prev) => !prev);
-  //   }
-  // };
-
-  // const handleSpeed = (speed) => {
-  //   if (countdownIntervalRef.current) {
-  //     if (speed === timerSpeed) {
-  //       console.log("Timer already at indicated speed");
-  //     } else {
-  //       clearInterval(countdownIntervalRef.current);
-  //       countdownIntervalRef.current = setInterval(() => {
-  //         updateRemainingTime();
-  //       }, speed);
-  //       setTimerSpeed(speed);
-  //     }
-  //   }
-  // };
-
   function onCountdownFinish() {
-    setEnteredTimeInMin("");
-    setHasCountdownStarted(false);
-    setIsCountdownPaused(false);
+    setCountdownState({
+      enteredTimeInMin: "",
+      msLeft: null,
+      hasCountdownStarted: false,
+      isCountdownPaused: false,
+    });
   }
 
   return (
     <div className="App">
       <div className="main-div">
         <CountdownInputSection
-          enteredTimeInMin={enteredTimeInMin}
-          setEnteredTimeInMin={setEnteredTimeInMin}
-          msLeft={msLeft}
-          hasCountdownStarted={hasCountdownStarted}
-          setHasCountdownStarted={setHasCountdownStarted}
-          isCountdownPaused={isCountdownPaused}
+          countdownState={countdownState}
+          setCountdownState={setCountdownState}
           onCountdownPause={onCountdownPause}
           onCountdownResume={onCountdownResume}
         />
         <CountdownClock
-          enteredTimeInMin={parseFloat(enteredTimeInMin)}
-          msLeft={msLeft}
-          setMsLeft={setMsLeft}
-          hasCountdownStarted={hasCountdownStarted}
-          isCountdownPaused={isCountdownPaused}
+          countdownState={countdownState}
+          setCountdownState={setCountdownState}
           onCountdownFinish={onCountdownFinish}
           endTimeInMsRef={endTimeInMsRef}
         />
