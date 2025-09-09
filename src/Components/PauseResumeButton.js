@@ -8,21 +8,26 @@ export function PauseResumeButton({
   onCountdownResume,
   secondsLeft,
 }) {
-  //add on tooltip for button
   return (
-    <button
-      className="pause-button"
-      type="button"
-      disabled={!hasCountdownStarted}
-      onClick={() => {
-        if (!isCountdownPaused) {
-          onCountdownPause();
-        } else {
-          onCountdownResume(secondsLeft);
-        }
-      }}
+    <div
+      title={
+        !hasCountdownStarted ? null : isCountdownPaused ? "Resume" : "Pause"
+      }
     >
-      {isCountdownPaused ? <PlayArrowIcon /> : <PauseIcon />}
-    </button>
+      <button
+        className="pause-button"
+        type="button"
+        disabled={!hasCountdownStarted}
+        onClick={() => {
+          if (!isCountdownPaused) {
+            onCountdownPause();
+          } else {
+            onCountdownResume(secondsLeft);
+          }
+        }}
+      >
+        {isCountdownPaused ? <PlayArrowIcon /> : <PauseIcon />}
+      </button>
+    </div>
   );
 }
