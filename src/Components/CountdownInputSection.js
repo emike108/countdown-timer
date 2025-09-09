@@ -1,8 +1,14 @@
-export default function CountdownInputSection({
+import { PauseResumeButton } from "./PauseResumeButton";
+
+export function CountdownInputSection({
   enteredTimeInMin,
   setEnteredTimeInMin,
-  isCountingDown,
-  setIsCountingDown,
+  secondsLeft,
+  hasCountdownStarted,
+  setHasCountdownStarted,
+  isCountdownPaused,
+  onCountdownPause,
+  onCountdownResume,
 }) {
   function handleTimeInput(e) {
     const onlyNumbersAndPeriod = /^[0-9]*\.?[0-9]*$/;
@@ -15,22 +21,21 @@ export default function CountdownInputSection({
   return (
     <div className="countdown-input-section">
       <label htmlFor="time-input">Countdown:</label>
-      &nbsp;
       <input
         className="search-bar"
         id="time-input"
         placeholder="(Minutes)"
         value={enteredTimeInMin}
         onChange={handleTimeInput}
-        disabled={isCountingDown}
+        disabled={hasCountdownStarted}
       />
       <button
-        className="search-button"
+        className="start-button"
         type="button"
-        disabled={isCountingDown}
+        disabled={hasCountdownStarted}
         onClick={() => {
           if (parseFloat(enteredTimeInMin) > 0) {
-            setIsCountingDown(true);
+            setHasCountdownStarted(true);
           } else {
             alert("Please enter a value that is greater than 0!");
             setEnteredTimeInMin("");
@@ -39,6 +44,13 @@ export default function CountdownInputSection({
       >
         START
       </button>
+      <PauseResumeButton
+        hasCountdownStarted={hasCountdownStarted}
+        isCountdownPaused={isCountdownPaused}
+        onCountdownPause={onCountdownPause}
+        onCountdownResume={onCountdownResume}
+        secondsLeft={secondsLeft}
+      />
     </div>
   );
 }

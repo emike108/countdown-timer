@@ -1,11 +1,31 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import "./App.css";
 import CountdownClock from "./Components/CountdownClock";
-import CountdownInputSection from "./Components/CountdownInputSection";
+import { CountdownInputSection } from "./Components/CountdownInputSection";
+import { calculateRemainingSeconds } from "./Shared/utils";
 
-function App() {
+export function App() {
   const [enteredTimeInMin, setEnteredTimeInMin] = useState("");
-  const [isCountingDown, setIsCountingDown] = useState(false);
+  const [secondsLeft, setSecondsLeft] = useState(null);
+
+  const [hasCountdownStarted, setHasCountdownStarted] = useState(false);
+  const [isCountdownPaused, setIsCountdownPaused] = useState(false);
+
+  const endTimeInMsRef = useRef(null);
+
+  function onCountdownPause() {
+    setIsCountdownPaused(true);
+  }
+
+  function onCountdownResume(timeInSec) {
+    endTimeInMsRef.current = new Date().getTime() + timeInSec * 1000;
+    const currentTime = new Date().getTime();
+
+    setSecondsLeft(
+      calculateRemainingSeconds(endTimeInMsRef.current, currentTime)
+    );
+    setIsCountdownPaused(false);
+  }
 
   // const [timerPaused, setTimerPaused] = useState(false);
   // const [timerSpeed, setTimerSpeed] = useState(1000);
@@ -19,7 +39,7 @@ function App() {
   // let countDownTime = (endTime - startTime) / 1000;
 
   // let isFirstRender = useRef(true);
-  // let intervalRef = useRef(null);
+  // let countdownIntervalRef = useRef(null);
   // let timeRef = useRef(new Date().getTime());
 
   // useEffect(() => {
@@ -28,12 +48,12 @@ function App() {
 
   // useEffect(() => {
   //   if (!isFirstRender.current) {
-  //     intervalRef.current = setInterval(() => {
+  //     countdownIntervalRef.current = setInterval(() => {
   //       updateRemainingTime();
   //     }, timerSpeed);
   //     setSelectedTime("");
   //     return () => {
-  //       if (intervalRef.current) clearInterval(intervalRef.current);
+  //       if (countdownIntervalRef.current) clearInterval(countdownIntervalRef.current);
   //     };
   //   } else {
   //     isFirstRender.current = false;
@@ -67,7 +87,7 @@ function App() {
   //     setTimesMinutes(minutes);
   //     setTimesSeconds(seconds);
   //   } else {
-  //     clearInterval(intervalRef.current);
+  //     clearInterval(countdownIntervalRef.current);
   //     setCountDownStyle({ color: "red" });
   //     setDisplayMessage("Times up!!");
   //     console.log("Time's up!!");
@@ -76,11 +96,11 @@ function App() {
 
   // const handlePause = () => {
   // console.log("Pause functionality disabled for now");
-  //   if (intervalRef.current) {
+  //   if (countdownIntervalRef.current) {
   //     if (!timerPaused) {
-  //       clearInterval(intervalRef.current);
+  //       clearInterval(countdownIntervalRef.current);
   //     } else {
-  //       intervalRef.current = setInterval(() => {
+  //       countdownIntervalRef.current = setInterval(() => {
   //         updateRemainingTime();
   //       }, timerSpeed);
   //     }
@@ -89,12 +109,12 @@ function App() {
   // };
 
   // const handleSpeed = (speed) => {
-  //   if (intervalRef.current) {
+  //   if (countdownIntervalRef.current) {
   //     if (speed === timerSpeed) {
   //       console.log("Timer already at indicated speed");
   //     } else {
-  //       clearInterval(intervalRef.current);
-  //       intervalRef.current = setInterval(() => {
+  //       clearInterval(countdownIntervalRef.current);
+  //       countdownIntervalRef.current = setInterval(() => {
   //         updateRemainingTime();
   //       }, speed);
   //       setTimerSpeed(speed);
@@ -102,10 +122,11 @@ function App() {
   //   }
   // };
 
-  function onFinish() {
+  function onCountdownFinish() {
     setEnteredTimeInMin("");
-    setIsCountingDown(false);
-  };
+    setHasCountdownStarted(false);
+    setIsCountdownPaused(false);
+  }
 
   return (
     <div className="App">
@@ -113,13 +134,21 @@ function App() {
         <CountdownInputSection
           enteredTimeInMin={enteredTimeInMin}
           setEnteredTimeInMin={setEnteredTimeInMin}
-          isCountingDown={isCountingDown}
-          setIsCountingDown={setIsCountingDown}
+          secondsLeft={secondsLeft}
+          hasCountdownStarted={hasCountdownStarted}
+          setHasCountdownStarted={setHasCountdownStarted}
+          isCountdownPaused={isCountdownPaused}
+          onCountdownPause={onCountdownPause}
+          onCountdownResume={onCountdownResume}
         />
         <CountdownClock
           enteredTimeInMin={parseFloat(enteredTimeInMin)}
-          isCountingDown={isCountingDown}
-          onFinish={onFinish}
+          secondsLeft={secondsLeft}
+          setSecondsLeft={setSecondsLeft}
+          hasCountdownStarted={hasCountdownStarted}
+          isCountdownPaused={isCountdownPaused}
+          onCountdownFinish={onCountdownFinish}
+          endTimeInMsRef={endTimeInMsRef}
         />
         {/* <span className="speed-indicator">
           Speed:{" "}
@@ -161,5 +190,3 @@ function App() {
     </div>
   );
 }
-
-export default App;

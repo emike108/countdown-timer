@@ -11,8 +11,8 @@ export function formatRemainingTime(secondsLeft) {
   )}`;
 }
 
-export function determineRemainingTimeStyle(secondsLeft, isCountingDown) {
-  if (!isCountingDown || secondsLeft === null) {
+export function determineRemainingTimeStyle(secondsLeft, hasCountdownStarted) {
+  if (!hasCountdownStarted || secondsLeft === null) {
     return { color: "black" };
   }
 

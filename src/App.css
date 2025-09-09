@@ -70,7 +70,7 @@
   padding: 3vh;
 }
 
-.play-pause {
+/* .pause-button {
   align-self: flex-end;
   transform: translateY(-14vh);
   width: 50px;
@@ -80,10 +80,10 @@
   border-style: outset;
   box-shadow: 1px 1px 5px #555;
 }
-.play-pause:hover {
+.pause-button:hover {
   border-style: outset;
   box-shadow: 0 5px 15px rgba(35, 68, 122, 0.85);
-}
+} */
 
 .remaining-time {
   font-size: 20vh;
@@ -95,7 +95,7 @@
   font-size: 20px;
 }
 
-.search-button {
+.start-button {
   margin: 0 0 0 10px;
   width: 100px;
   height: 45px;
@@ -109,7 +109,7 @@
   box-shadow: 1px 1px 5px #555;
 }
 
-.search-button:disabled {
+.start-button:disabled {
   background-color: #a5a5a5;
   color: #e1e1e1;
   box-shadow: none;
@@ -117,7 +117,7 @@
   cursor: not-allowed;
 }
 
-.search-button:hover {
+.start-button:hover {
   border-style: outset;
   color: rgba(255, 255, 255, 1);
   box-shadow: 7px 7px 5px #555;
