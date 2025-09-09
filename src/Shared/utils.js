@@ -35,15 +35,15 @@ export function getDisplayMessage(totalTimeInMs, msLeft) {
     return null;
   }
 
-  if (Math.floor(msLeft / 1000) <= 0) {
+  if (msLeft <= 1000) {
     return "Times up!!";
   }
 
-  if (msLeft <= 10000) {
+  if (msLeft <= 11000) {
     return "Only a few seconds left!";
   }
 
-  if (totalTimeInMs / msLeft >= 2) {
+  if (Math.floor(totalTimeInMs / msLeft) >= 2) {
     return "More than halfway there!";
   }
 
