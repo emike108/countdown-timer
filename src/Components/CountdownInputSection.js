@@ -3,7 +3,7 @@ import { PauseResumeButton } from "./PauseResumeButton";
 export function CountdownInputSection({
   enteredTimeInMin,
   setEnteredTimeInMin,
-  secondsLeft,
+  msLeft,
   hasCountdownStarted,
   setHasCountdownStarted,
   isCountdownPaused,
@@ -49,7 +49,7 @@ export function CountdownInputSection({
         isCountdownPaused={isCountdownPaused}
         onCountdownPause={onCountdownPause}
         onCountdownResume={onCountdownResume}
-        secondsLeft={secondsLeft}
+        msLeft={msLeft}
       />
     </div>
   );

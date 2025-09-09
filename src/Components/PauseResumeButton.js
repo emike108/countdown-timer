@@ -6,7 +6,7 @@ export function PauseResumeButton({
   isCountdownPaused,
   onCountdownPause,
   onCountdownResume,
-  secondsLeft,
+  msLeft,
 }) {
   return (
     <div
@@ -22,7 +22,7 @@ export function PauseResumeButton({
           if (!isCountdownPaused) {
             onCountdownPause();
           } else {
-            onCountdownResume(secondsLeft);
+            onCountdownResume(msLeft);
           }
         }}
       >

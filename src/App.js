@@ -1,12 +1,12 @@
-import { useState, useRef } from "react";
+import { useRef, useState } from "react";
 import "./App.css";
 import CountdownClock from "./Components/CountdownClock";
 import { CountdownInputSection } from "./Components/CountdownInputSection";
-import { calculateRemainingSeconds } from "./Shared/utils";
+import { calculateRemainingMs } from "./Shared/utils";
 
 export function App() {
   const [enteredTimeInMin, setEnteredTimeInMin] = useState("");
-  const [secondsLeft, setSecondsLeft] = useState(null);
+  const [msLeft, setMsLeft] = useState(null);
 
   const [hasCountdownStarted, setHasCountdownStarted] = useState(false);
   const [isCountdownPaused, setIsCountdownPaused] = useState(false);
@@ -17,13 +17,11 @@ export function App() {
     setIsCountdownPaused(true);
   }
 
-  function onCountdownResume(timeInSec) {
-    endTimeInMsRef.current = new Date().getTime() + timeInSec * 1000;
+  function onCountdownResume(timeInMs) {
+    endTimeInMsRef.current = new Date().getTime() + timeInMs;
     const currentTime = new Date().getTime();
 
-    setSecondsLeft(
-      calculateRemainingSeconds(endTimeInMsRef.current, currentTime)
-    );
+    setMsLeft(calculateRemainingMs(endTimeInMsRef.current, currentTime));
     setIsCountdownPaused(false);
   }
 
@@ -134,7 +132,7 @@ export function App() {
         <CountdownInputSection
           enteredTimeInMin={enteredTimeInMin}
           setEnteredTimeInMin={setEnteredTimeInMin}
-          secondsLeft={secondsLeft}
+          msLeft={msLeft}
           hasCountdownStarted={hasCountdownStarted}
           setHasCountdownStarted={setHasCountdownStarted}
           isCountdownPaused={isCountdownPaused}
@@ -143,8 +141,8 @@ export function App() {
         />
         <CountdownClock
           enteredTimeInMin={parseFloat(enteredTimeInMin)}
-          secondsLeft={secondsLeft}
-          setSecondsLeft={setSecondsLeft}
+          msLeft={msLeft}
+          setMsLeft={setMsLeft}
           hasCountdownStarted={hasCountdownStarted}
           isCountdownPaused={isCountdownPaused}
           onCountdownFinish={onCountdownFinish}

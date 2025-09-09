@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import {
-  calculateRemainingSeconds,
-  convertMsToSec,
+  calculateRemainingMs,
   determineRemainingTimeStyle,
   formatRemainingTime,
   getDisplayMessage,
@@ -9,8 +8,8 @@ import {
 
 export default function CountdownClock({
   enteredTimeInMin,
-  secondsLeft,
-  setSecondsLeft,
+  msLeft,
+  setMsLeft,
   hasCountdownStarted,
   isCountdownPaused,
   onCountdownFinish,
@@ -23,7 +22,7 @@ export default function CountdownClock({
   const countdownIntervalRef = useRef(null);
   const endCountdownTimeoutRef = useRef(null);
 
-  // Initialize the values for endTimeRef and secondsLeft state when countdown starts
+  // Initialize the values for endTimeRef and msLeft state when countdown starts
   useEffect(() => {
     if (!!enteredTimeInMin && hasCountdownStarted) {
       endTimeInMsRef.current =
@@ -32,9 +31,7 @@ export default function CountdownClock({
       const currentTime = new Date().getTime();
       totalCountdownMsTimeRef.current = endTimeInMsRef.current - currentTime;
 
-      setSecondsLeft(
-        calculateRemainingSeconds(endTimeInMsRef.current, currentTime)
-      );
+      setMsLeft(calculateRemainingMs(endTimeInMsRef.current, currentTime));
     }
     // Other dependencies will cause unwanted resets of the countdown
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -46,13 +43,13 @@ export default function CountdownClock({
     if (hasCountdownStarted && endTimeInMsRef.current && !isCountdownPaused) {
       countdownIntervalRef.current = setInterval(() => {
         const currentTime = new Date().getTime();
-        const remainingTimeInSec = calculateRemainingSeconds(
+        const remainingTimeInMs = calculateRemainingMs(
           endTimeInMsRef.current,
           currentTime
         );
-        setSecondsLeft(remainingTimeInSec);
+        setMsLeft(remainingTimeInMs);
 
-        if (remainingTimeInSec <= 0) {
+        if (remainingTimeInMs <= 0) {
           clearInterval(countdownIntervalRef.current);
           endCountdownTimeoutRef.current = setTimeout(() => {
             onCountdownFinish();
@@ -79,18 +76,15 @@ export default function CountdownClock({
       <div className="timed-messages">
         &nbsp;&nbsp;
         {isMessageDisplayed
-          ? getDisplayMessage(
-              convertMsToSec(totalCountdownMsTimeRef.current),
-              secondsLeft
-            )
+          ? getDisplayMessage(totalCountdownMsTimeRef.current, msLeft)
           : null}
       </div>
       <div className="countdown">
         <span
           className="remaining-time"
-          style={determineRemainingTimeStyle(secondsLeft, hasCountdownStarted)}
+          style={determineRemainingTimeStyle(msLeft, hasCountdownStarted)}
         >
-          {formatRemainingTime(secondsLeft)}
+          {formatRemainingTime(msLeft)}
         </span>
       </div>
     </>
