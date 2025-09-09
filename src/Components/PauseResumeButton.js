@@ -1,3 +1,6 @@
+import PauseIcon from "@mui/icons-material/Pause";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+
 export function PauseResumeButton({
   hasCountdownStarted,
   isCountdownPaused,
@@ -5,10 +8,10 @@ export function PauseResumeButton({
   onCountdownResume,
   secondsLeft,
 }) {
+  //add on tooltip for button
   return (
     <button
-      //update the styling for the button
-      className="start-button"
+      className="pause-button"
       type="button"
       disabled={!hasCountdownStarted}
       onClick={() => {
@@ -19,8 +22,7 @@ export function PauseResumeButton({
         }
       }}
     >
-      {/* convert to icons from MUI? */}
-      {isCountdownPaused ? "Resume" : "Pause"}
+      {isCountdownPaused ? <PlayArrowIcon /> : <PauseIcon />}
     </button>
   );
 }

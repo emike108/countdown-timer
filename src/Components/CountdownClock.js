@@ -63,7 +63,6 @@ export default function CountdownClock({
 
       setIsMessageDisplayed(true);
     } else {
-      console.log("Clearing interval");
       clearInterval(countdownIntervalRef.current);
     }
 
