@@ -1,3 +1,5 @@
+import React from "react";
+
 export function ResetButton({ hasCountdownStarted, resetCountdown }) {
   return (
     <div className="reset-button-container">
