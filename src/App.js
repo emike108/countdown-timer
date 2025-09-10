@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import "./App.css";
 import CountdownClock from "./Components/CountdownClock";
 import { CountdownInputSection } from "./Components/CountdownInputSection";
+import { ResetButton } from "./Components/ResetButton";
 import { calculateRemainingMs } from "./Shared/utils";
 
 export function App() {
@@ -55,6 +56,10 @@ export function App() {
           setCountdownState={setCountdownState}
           onCountdownFinish={onCountdownFinish}
           endTimeInMsRef={endTimeInMsRef}
+        />
+        <ResetButton
+          hasCountdownStarted={countdownState.hasCountdownStarted}
+          resetCountdown={onCountdownFinish}
         />
         {/* <span className="speed-indicator">
           Speed:{" "}

@@ -115,7 +115,7 @@
 }
 
 .start-button:hover {
-  box-shadow: 7px 7px 5px #555;
+  box-shadow: 5px 5px 5px #555;
 }
 
 .start-button:disabled {
@@ -165,6 +165,37 @@ span {
   padding-top: 50px;
   font-size: 25px;
   font-style: italic;
+}
+
+.reset-button-container {
+  display: flex;
+  align-items: center;
+  justify-content: right;
+}
+
+.reset-button {
+  width: 75px;
+  height: 40px;
+  color: white;
+  background-color: #b32e1a;
+  font-weight: bold;
+  font-size: 15px;
+  border: transparent;
+  border-radius: 9px;
+  border-style: outset;
+  box-shadow: 1px 1px 5px #555;
+}
+
+.reset-button:hover {
+  box-shadow: 5px 5px 5px #555;
+}
+
+.reset-button:disabled {
+  background-color: #a5a5a5;
+  color: #e1e1e1;
+  box-shadow: none;
+  border-style: inset;
+  cursor: not-allowed;
 }
 
 @keyframes blinker {
