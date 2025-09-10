@@ -70,6 +70,7 @@ export default function CountdownClock({
     setCountdownState,
   ]);
 
+  // Initialize countdown when entered time and countdown has started
   useEffect(() => {
     if (
       !!countdownState.enteredTimeInMin &&
@@ -83,6 +84,7 @@ export default function CountdownClock({
     initializeCountdown,
   ]);
 
+  // Manage countdown interval based on countdown state
   useEffect(() => {
     manageCountdownInterval();
 
