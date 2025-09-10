@@ -9,6 +9,8 @@ when the countdown reaches 10 seconds or less the countdown font will start blin
 
 See images below for a brief demonstration:
 
+***NOTE: Work in progress, more features and styling to be added.***
+
 ![initial state](/images/initial_state.png)
 ![time added](/images/time_added.png)
 ![halfway mark](/images/halfway_mark.png)
