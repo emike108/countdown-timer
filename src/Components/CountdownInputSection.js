@@ -1,3 +1,4 @@
+import React from "react";
 import { PauseResumeButton } from "./PauseResumeButton";
 
 export function CountdownInputSection({

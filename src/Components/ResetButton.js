@@ -1,4 +1,8 @@
+import React from "react";
+import { useEffect } from "react";
+
 export function ResetButton({ hasCountdownStarted, resetCountdown }) {
+  useEffect(() => {}, [])
   return (
     <div className="reset-button-container">
       <button
