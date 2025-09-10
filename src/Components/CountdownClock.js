@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   calculateRemainingMs,
   determineRemainingTimeStyle,
@@ -15,34 +15,24 @@ export default function CountdownClock({
   const [isMessageDisplayed, setIsMessageDisplayed] = useState(false);
 
   const totalCountdownMsTimeRef = useRef(null);
-
   const countdownIntervalRef = useRef(null);
   const endCountdownTimeoutRef = useRef(null);
 
-  // Initialize the values for endTimeRef and msLeft state when countdown starts
-  useEffect(() => {
-    if (
-      !!countdownState.enteredTimeInMin &&
-      countdownState.hasCountdownStarted
-    ) {
-      endTimeInMsRef.current =
-        new Date().getTime() + countdownState.enteredTimeInMin * 60 * 1000;
+  const initializeCountdown = useCallback(() => {
+    endTimeInMsRef.current =
+      new Date().getTime() + countdownState.enteredTimeInMin * 60 * 1000;
+    const currentTime = new Date().getTime();
 
-      const currentTime = new Date().getTime();
-      totalCountdownMsTimeRef.current = endTimeInMsRef.current - currentTime;
+    totalCountdownMsTimeRef.current = endTimeInMsRef.current - currentTime;
 
-      setCountdownState((prevState) => ({
-        ...prevState,
-        msLeft: calculateRemainingMs(endTimeInMsRef.current, currentTime),
-      }));
-    }
-    // Other dependencies will cause unwanted resets of the countdown
+    setCountdownState((prevState) => ({
+      ...prevState,
+      msLeft: calculateRemainingMs(endTimeInMsRef.current, currentTime),
+    }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [countdownState.enteredTimeInMin, countdownState.hasCountdownStarted]);
+  }, [countdownState.enteredTimeInMin, setCountdownState]);
 
-  // Initialize the countdownIntervalRef which will use the value of endTimeRef to
-  // update the amount of seconds left
-  useEffect(() => {
+  const manageCountdownInterval = useCallback(() => {
     if (
       countdownState.hasCountdownStarted &&
       endTimeInMsRef.current &&
@@ -72,14 +62,39 @@ export default function CountdownClock({
     } else {
       clearInterval(countdownIntervalRef.current);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    countdownState.hasCountdownStarted,
+    countdownState.isCountdownPaused,
+    endTimeInMsRef,
+    setCountdownState,
+  ]);
+
+  useEffect(() => {
+    if (
+      !!countdownState.enteredTimeInMin &&
+      countdownState.hasCountdownStarted
+    ) {
+      initializeCountdown();
+    }
+  }, [
+    countdownState.enteredTimeInMin,
+    countdownState.hasCountdownStarted,
+    initializeCountdown,
+  ]);
+
+  useEffect(() => {
+    manageCountdownInterval();
 
     return () => {
       clearInterval(countdownIntervalRef.current);
       clearTimeout(endCountdownTimeoutRef.current);
     };
-    // onCountdownFinish is not needed in the dependency array
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [countdownState.hasCountdownStarted, countdownState.isCountdownPaused]);
+  }, [
+    countdownState.hasCountdownStarted,
+    countdownState.isCountdownPaused,
+    manageCountdownInterval,
+  ]);
 
   return (
     <>
